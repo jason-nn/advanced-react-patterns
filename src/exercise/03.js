@@ -34,20 +34,23 @@ function Toggle({children}) {
 // your context won't be exposed to the user
 // 💰 `const context = React.useContext(ToggleContext)`
 // 📜 https://reactjs.org/docs/hooks-reference.html#usecontext
+
+const useToggleContext = () => React.useContext(ToggleContext)
+
 function ToggleOn({children}) {
-  const {on} = React.useContext(ToggleContext)
+  const {on} = useToggleContext()
   return on ? children : null
 }
 
 // 🐨 do the same thing to this that you did to the ToggleOn component
 function ToggleOff({children}) {
-  const {on} = React.useContext(ToggleContext)
+  const {on} = useToggleContext()
   return on ? null : children
 }
 
 // 🐨 get `on` and `toggle` from the ToggleContext with `useContext`
 function ToggleButton({...props}) {
-  const {on, toggle} = React.useContext(ToggleContext)
+  const {on, toggle} = useToggleContext()
   return <Switch on={on} onClick={toggle} {...props} />
 }
 
