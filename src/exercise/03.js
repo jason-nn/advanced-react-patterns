@@ -35,7 +35,13 @@ function Toggle({children}) {
 // 💰 `const context = React.useContext(ToggleContext)`
 // 📜 https://reactjs.org/docs/hooks-reference.html#usecontext
 
-const useToggleContext = () => React.useContext(ToggleContext)
+const useToggleContext = () => {
+  const context = React.useContext(ToggleContext)
+  if (!context) {
+    throw new Error('useToggleContext must be used within a <Toggle/>')
+  }
+  return context
+}
 
 function ToggleOn({children}) {
   const {on} = useToggleContext()
