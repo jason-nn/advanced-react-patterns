@@ -44,6 +44,18 @@ function useToggle({
   // 🐨 determine whether on is controlled and assign that to `onIsControlled`
   // 💰 `controlledOn != null`
   const onIsControlled = controlledOn != null
+  const {current: onWasControlled} = React.useRef(onIsControlled)
+
+  React.useEffect(() => {
+    warning(
+      !(onIsControlled && !onWasControlled),
+      'Changing from uncontrolled to controlled.',
+    )
+    warning(
+      !(!onIsControlled && onWasControlled),
+      'Changing from controlled to uncontrolled.',
+    )
+  }, [onIsControlled, onWasControlled])
 
   React.useEffect(() => {
     // if (controlledOn && !onChange && !readOnly) {
@@ -152,7 +164,7 @@ function App() {
     <div>
       <div>
         <Toggle on={bothOn} onChange={handleToggleChange} />
-        <Toggle on={bothOn} readOnly={true} />
+        <Toggle on={bothOn} onChange={handleToggleChange} />
       </div>
       {timesClicked > 4 ? (
         <div data-testid="notice">
